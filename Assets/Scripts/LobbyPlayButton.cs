@@ -13,9 +13,26 @@ public class LobbyPlayButton : MonoBehaviour
     void Start()
     {
         playButton.interactable = false;
+        Addressables.LoadContentCatalogAsync("https://github.com/anshulg1998/InterviewTemplate-s01/catalog.json")
+        .Completed += (handle) =>
+        {
+            Addressables.InstantiateAsync("Cube").Completed += (handle) =>
+       {
+           if (handle.Status == AsyncOperationStatus.Succeeded)
+           {
+               GameObject obj = handle.Result;
+               obj.transform.position = new Vector3(0, -2, 0); // Set spawn position
+               obj.transform.rotation = Quaternion.Euler(-30, -40, 25);
+           }
+           else
+           {
+               Debug.LogError("Failed to instantiate prefab.");
+           }
+       };
+            playButton.onClick.AddListener(OnPlayClicked);
+
+        };
         // Download the addressable GameObject from server
-        Addressables.LoadAssetAsync<GameObject>("YourAddressableKeyHere").Completed += OnAddressableLoaded;
-        playButton.onClick.AddListener(OnPlayClicked);
     }
 
     private void OnAddressableLoaded(AsyncOperationHandle<GameObject> handle)
