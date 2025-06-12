@@ -13,6 +13,7 @@ public class LobbyPlayButton : MonoBehaviour
     void Start()
     {
         playButton.interactable = false;
+        playButton.onClick.AddListener(OnPlayClicked);
         string catalogURL = "https://www.dropbox.com/scl/fi/44catz3fc7izhjdn1r1e6/catalog.json?rlkey=6r35b035c0u0690x9h6b1l6s7&st=kqknpzee&dl=0/catalog.json";
 
         Addressables.LoadContentCatalogAsync(catalogURL).Completed += (catalogHandle) =>
