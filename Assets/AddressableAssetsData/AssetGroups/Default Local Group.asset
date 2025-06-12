@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 9612316dbf9240a44b19c873cbdf6d07
     m_Address: Assets/Cube.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1c5e83c382bf51a4b8a004d5eac1a3aa, type: 2}

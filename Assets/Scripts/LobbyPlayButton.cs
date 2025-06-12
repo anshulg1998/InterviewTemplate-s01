@@ -13,40 +13,34 @@ public class LobbyPlayButton : MonoBehaviour
     void Start()
     {
         playButton.interactable = false;
-        Addressables.LoadContentCatalogAsync("https://github.com/anshulg1998/InterviewTemplate-s01/catalog.json")
-        .Completed += (handle) =>
-        {
-            Addressables.InstantiateAsync("Cube").Completed += (handle) =>
-       {
-           if (handle.Status == AsyncOperationStatus.Succeeded)
-           {
-               GameObject obj = handle.Result;
-               obj.transform.position = new Vector3(0, -2, 0); // Set spawn position
-               obj.transform.rotation = Quaternion.Euler(-30, -40, 25);
-           }
-           else
-           {
-               Debug.LogError("Failed to instantiate prefab.");
-           }
-       };
-            playButton.onClick.AddListener(OnPlayClicked);
+        string catalogURL = "https://github.com/anshulg1998/InterviewTemplate-s01/catalog.json";
 
-        };
-        // Download the addressable GameObject from server
-    }
-
-    private void OnAddressableLoaded(AsyncOperationHandle<GameObject> handle)
-    {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        Addressables.LoadContentCatalogAsync(catalogURL).Completed += (catalogHandle) =>
         {
-            // Optionally instantiate or cache the loaded GameObject here
-            // GameObject loadedObj = GameObject.Instantiate(handle.Result);
+            if (catalogHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                Addressables.InstantiateAsync("Cube").Completed += (handle) =>
+                {
+                    if (handle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        GameObject obj = handle.Result;
+                        obj.transform.position = new Vector3(0, 1, 0);
+                        obj.transform.rotation = Quaternion.identity;
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to instantiate prefab.");
+                    }
+                };
+            }
+            else
+            {
+                Debug.LogError("Failed to load catalog.");
+            }
             playButton.interactable = true;
-        }
-        else
-        {
-            Debug.LogError("Failed to load addressable GameObject.");
-        }
+        };
+
+        // Download the addressable GameObject from server
     }
 
     void OnPlayClicked()
